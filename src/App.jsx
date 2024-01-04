@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { GameBoard } from './components/GameBoard';
 import { checkShipDestroyed } from './helpers/CheckShipDestroyed';
 import { isValidShipPlacement } from './helpers/ValidShipPlacement';
+import { convertLetters } from './helpers/ConvertLetters';
 import Swal from 'sweetalert2';
 
 export const App = () => {
@@ -43,7 +44,7 @@ export const App = () => {
 
   const executeCommand = () => {
     const command = inputCommand.split('.');
-    const row = command[0];
+    const row = convertLetters(command[0]);
     const col = command[1];
     const isHit = gameBoard[row-1][col-1] === 'S';
     const newGameBoard = [...gameBoard];
@@ -94,12 +95,12 @@ export const App = () => {
     <>
       <div className='game-container'>
         <h1>Astucia Naval</h1>
-        <div className="">
+        <div className="game-container__insert">
           <input
             type="text"
             value={inputCommand}
             onChange={(e) => setInputCommand(e.target.value.toUpperCase())}
-            placeholder="Enter command (e.g., D1, H3, C2)"
+            placeholder="Enter command (D.1, H.3, C.2...)"
           />
           <button onClick={executeCommand}>Ejecutar</button>
           <button onClick={resetGame}>Reset</button>
